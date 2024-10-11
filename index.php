@@ -23,41 +23,35 @@ $carta=$_AVT->obtplatillos();
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-body">
-                         <div class="input-group">
+                        <div class="input-group">
                             <span class="input-group-text">
                                 <i class="bi bi-currency-dollar"></i>
                             </span>
 
-                                <input list="productos" id="myproduct" name="inputProds" class="form-control form-control-lg lista" placeholder="Agrega productos"  oninput='onInput()'/>
-                                <datalist id="productos">
+                            <input type="text" list="listproductos" oninput=onInput() id="myproduct" name="inputProds"
+                                class="form-control form-control-lg lista" placeholder="Agrega productos" />
+                            <datalist id="listproductos">
                                 <?php foreach ($carta as $producto){
                                 echo "<option value='{$producto['Nombre']}, {$producto['Precio']}'></option>";
-                                } ?> 
-                                </datalist>
+                                } ?>
+                            </datalist>
                         </div>
                         <div class="input-group">
                             <span class="input-group-text">
                                 <i class="bi bi-currency-dollar"></i>
                             </span>
 
-                            <input type="number" class="form-control form-control-lg total" min="0" step="0.01"
-                                placeholder="Total Check">
-
-                                <input list="browsers" id="myBrowser" name="myBrowser" class="form-control form-control-lg lista"/>
-                                <datalist id="browsers">
-                                <?php foreach ($carta as $producto){
-                                echo "<option value='{$producto['Nombre']}, {$producto['Precio']}'></option>";
-                                } ?> 
-                                </datalist>
+                            <input type="number" id="cuenta" class="form-control form-control-lg total" min="0"
+                                step="0.01" placeholder="Total Check">
                         </div>
                         <div class="input-group">
-                            <table id="myTable" >
-                            <tr>
-                                <td>Producto</td>
-                                <td>Precio</td>
-                            </tr>
+                            <table id="myTable">
+                                <tr>
+                                    <td>Producto</td>
+                                    <td>Precio</td>
+                                </tr>
                             </table>
-                        
+
                         </div>
                         <div class="input-group">
                             <span class="input-group-text">
@@ -70,23 +64,28 @@ $carta=$_AVT->obtplatillos();
                             <label class="form-label">Select Tip Percentage</label>
                             <div class="form-check">
                                 <div class="radio-button-label">
-                                    <input type="radio" name="percentage" id="percentage0" class="percentage" checked value="0">
+                                    <input type="radio" name="percentage" id="percentage0" class="percentage" checked
+                                        value="0">
                                     <label for="percentage0">0%</label>
                                 </div>
                                 <div class="radio-button-label">
-                                    <input type="radio" name="percentage" id="percentage10" class="percentage" value="10">
+                                    <input type="radio" name="percentage" id="percentage10" class="percentage"
+                                        value="10">
                                     <label for="percentage10">10%</label>
                                 </div>
                                 <div class="radio-button-label">
-                                    <input type="radio" name="percentage" id="percentage15" class="percentage" value="15">
+                                    <input type="radio" name="percentage" id="percentage15" class="percentage"
+                                        value="15">
                                     <label for="percentage15">15%</label>
                                 </div>
                                 <div class="radio-button-label">
-                                    <input type="radio" name="percentage" id="percentage18" class="percentage" value="18">
+                                    <input type="radio" name="percentage" id="percentage18" class="percentage"
+                                        value="18">
                                     <label for="percentage18">18%</label>
                                 </div>
                                 <div class="radio-button-label">
-                                    <input type="radio" name="percentage" id="percentage20" class="percentage" value="20">
+                                    <input type="radio" name="percentage" id="percentage20" class="percentage"
+                                        value="20">
                                     <label for="percentage20">20%</label>
                                 </div>
                             </div>
@@ -122,29 +121,37 @@ $carta=$_AVT->obtplatillos();
         </div>
     </div>
     <script src="calculator.js"></script>
-</body>
+    <script>
+    function onInput() {
+        var val = document.getElementById("myproduct").value;
+        var opts = document.getElementById('listproductos').children;
+        for (var i = 0; i < opts.length; i++) {
+            if (opts[i].value === val) {
+                // An item was selected from the list!
+                // yourCallbackHere()
+                var selected_prod = opts[i].value;
+                var selected_array = selected_prod.split(", ");
+                doTheInsert(selected_array[0], selected_array[1]);
+                document.getElementById("myproduct").value = "";
+                break;
+            }
+        }
+        var table = document.querySelector('table');
+        var sum = 0;
 
-<script>
-function doTheInsert(nombre, precio) {
-  var newRow=document.getElementById('myTable').insertRow();
-  newRow.innerHTML="<td>"nombre"</td><td>"precio"</td>";
-}
-
-function onInput() {
-    var val = document.getElementById("myproduct").value;
-    var opts = document.getElementById('productos').children;
-    for (var i = 0; i < opts.length; i++) {
-      if (opts[i].value === val) {
-        // An item was selected from the list!
-        // yourCallbackHere()
-        var selected_prod=opts[i].value;
-        var selected_array=selected_prod.split(", ");
-        alert(selected_array[0]);
-        doTheInsert(selected_array[0], selected_array[1]);
-        break;
-      }
+        for (var i = 1; i < table.rows.length; i++) {
+            sum = sum + parseFloat(table.rows[i].cells[1].textContent);
+        }
+        console.log(sum);
+        document.getElementById("cuenta").value=sum;
     }
-  }
-</script>
+
+
+    function doTheInsert(nombre, precio) {
+        var newRow = document.getElementById('myTable').insertRow();
+        newRow.innerHTML = "<td>" + nombre + "</td><td>" + precio + "</td>";
+    }
+    </script>
+</body>
 
 </html>

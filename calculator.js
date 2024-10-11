@@ -1,3 +1,4 @@
+
 class TipCalculator {
 	constructor() {
 		// Create elements for the calculator
