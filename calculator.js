@@ -64,3 +64,5 @@ class TipCalculator {
 
 // Create an instance of the TipCalculator
 const calculator = new TipCalculator();
+
+
